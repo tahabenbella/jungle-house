@@ -1,25 +1,30 @@
-import logo from './logo.svg';
 import './App.css';
+import { useState,useEffect } from 'react';
+import Banner from './components/Banner';
+import Footer from './components/Footer';
+import Cart from './components/Cart';
+import ShoppingList from './components/ShoppingList';
+
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  const savedCart = localStorage.getItem('cart')
+  const [cart, updateCart] = useState(savedCart ? JSON.parse(savedCart) : [])
+  useEffect(() => {
+    localStorage.setItem('cart', JSON.stringify(cart))
+  }, [cart])
+    return (
+      <>
+        <Banner />
+        <div className='jh-layout-inner'>
+          <Cart cart={cart} updateCart={updateCart}/>
+          <ShoppingList cart={cart} updateCart={updateCart}/>
+        </div>
+        
+        
+        <Footer/>
+      </>
+      )
 }
+ 
+export default App
 
-export default App;
